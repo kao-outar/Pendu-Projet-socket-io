@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jeu du Pendu Multijoueur</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Pendu Multijoueur</h1>
+
+    <div id="game-info">
+        <p id="status-message">En attente de joueurs...</p>
+    </div>
+
+    <div id="game-container" class="hidden">
+        <div id="word-display-container">
+            <p id="word-display"></p>
+        </div>
+        
+        <div id="controls">
+            <div id="secret-word-form" class="hidden">
+                <input type="text" id="secret-word-input" placeholder="Entrez le mot secret...">
+                <button id="submit-word-button">Valider</button>
+            </div>
+            <div id="guess-form" class="hidden">
+                <input type="text" id="letter-input" maxlength="1" placeholder="Devinez une lettre...">
+                <button id="guess-button">Deviner</button>
+            </div>
+        </div>
+
+        <div id="game-state">
+            <p>Erreurs : <span id="errors-count">0</span> / 6</p>
+            <p>Lettres déjà proposées : <span id="guessed-letters"></span></p>
+        </div>
+    </div>
+    
+    <div id="hangman-drawing">
+        <!-- Le dessin du pendu sera géré en CSS ou via des images -->
+    </div>
+
+    <button id="play-again-button" class="hidden">Rejouer</button>
+
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="client.js"></script>
+</body>
+</html> 

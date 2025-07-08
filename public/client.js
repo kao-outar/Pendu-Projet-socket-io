@@ -29,6 +29,10 @@ document.addEventListener('DOMContentLoaded', () => {
         // Réinitialiser le dessin du pendu
         const hangmanParts = document.querySelectorAll('.hangman-part');
         hangmanParts.forEach(part => part.classList.remove('show'));
+        
+        // Réinitialiser le clavier virtuel
+        const letterBtns = document.querySelectorAll('.letter-btn');
+        letterBtns.forEach(btn => btn.classList.remove('used'));
     }
     
     // Fonction pour afficher les parties du pendu progressivement
@@ -100,15 +104,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Logique pour deviner une lettre
-    guessButton.addEventListener('click', () => {
-        const letter = letterInput.value.trim().toLowerCase();
-        if (letter && /^[a-z]$/.test(letter)) {
-            socket.emit('guess-letter', letter);
-            letterInput.value = '';
-        } else if (letter) {
-            alert('Veuillez entrer une seule lettre (a-z, sans accents)');
-        }
+    // Logique pour le clavier virtuel
+    document.querySelectorAll('.letter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const letter = btn.dataset.letter;
+            if (!btn.classList.contains('used')) {
+                socket.emit('guess-letter', letter);
+            }
+        });
     });
     
     // Gérer la mise à jour de l'état du jeu
@@ -119,6 +122,14 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Mettre à jour le dessin du pendu
         updateHangmanDrawing(gameState.errors);
+        
+        // Marquer les lettres utilisées dans le clavier virtuel
+        gameState.guessedLetters.forEach(letter => {
+            const btn = document.querySelector(`[data-letter="${letter}"]`);
+            if (btn) {
+                btn.classList.add('used');
+            }
+        });
 
         // On ne gère plus l'affichage du formulaire de devinette ici
         // car 'your-turn' s'en occupe déjà.

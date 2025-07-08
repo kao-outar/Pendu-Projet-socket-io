@@ -26,8 +26,38 @@
                         <button id="submit-word-button">Valider</button>
                     </div>
                     <div id="guess-form" class="hidden">
-                        <input type="text" id="letter-input" maxlength="1" placeholder="Devinez une lettre...">
-                        <button id="guess-button">Deviner</button>
+                        <div id="virtual-keyboard">
+                            <div class="keyboard-row">
+                                <button class="letter-btn" data-letter="a">A</button>
+                                <button class="letter-btn" data-letter="b">B</button>
+                                <button class="letter-btn" data-letter="c">C</button>
+                                <button class="letter-btn" data-letter="d">D</button>
+                                <button class="letter-btn" data-letter="e">E</button>
+                                <button class="letter-btn" data-letter="f">F</button>
+                                <button class="letter-btn" data-letter="g">G</button>
+                                <button class="letter-btn" data-letter="h">H</button>
+                                <button class="letter-btn" data-letter="i">I</button>
+                                <button class="letter-btn" data-letter="j">J</button>
+                                <button class="letter-btn" data-letter="k">K</button>
+                                <button class="letter-btn" data-letter="l">L</button>
+                                <button class="letter-btn" data-letter="m">M</button>
+                            </div>
+                            <div class="keyboard-row">
+                                <button class="letter-btn" data-letter="n">N</button>
+                                <button class="letter-btn" data-letter="o">O</button>
+                                <button class="letter-btn" data-letter="p">P</button>
+                                <button class="letter-btn" data-letter="q">Q</button>
+                                <button class="letter-btn" data-letter="r">R</button>
+                                <button class="letter-btn" data-letter="s">S</button>
+                                <button class="letter-btn" data-letter="t">T</button>
+                                <button class="letter-btn" data-letter="u">U</button>
+                                <button class="letter-btn" data-letter="v">V</button>
+                                <button class="letter-btn" data-letter="w">W</button>
+                                <button class="letter-btn" data-letter="x">X</button>
+                                <button class="letter-btn" data-letter="y">Y</button>
+                                <button class="letter-btn" data-letter="z">Z</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -42,18 +72,18 @@
             <div id="hangman-drawing">
                 <svg width="200" height="250" viewBox="0 0 200 250">
                     <!-- Potence -->
-                    <rect class="hangman-part" x="10" y="230" width="100" height="8" fill="#8B4513" opacity="0"/>
-                    <rect class="hangman-part" x="20" y="20" width="8" height="220" fill="#8B4513" opacity="0"/>
-                    <rect class="hangman-part" x="20" y="20" width="80" height="8" fill="#8B4513" opacity="0"/>
-                    <rect class="hangman-part" x="95" y="28" width="3" height="30" fill="#654321" opacity="0"/>
+                    <rect class="hangman-part" x="10" y="230" width="100" height="8" fill="#d63384" opacity="0"/>
+                    <rect class="hangman-part" x="20" y="20" width="8" height="220" fill="#d63384" opacity="0"/>
+                    <rect class="hangman-part" x="20" y="20" width="80" height="8" fill="#d63384" opacity="0"/>
+                    <rect class="hangman-part" x="95" y="28" width="3" height="30" fill="#e91e63" opacity="0"/>
                     
                     <!-- Pendu -->
-                    <circle class="hangman-part" cx="97" cy="75" r="15" stroke="#333" stroke-width="3" fill="none" opacity="0"/>
-                    <line class="hangman-part" x1="97" y1="90" x2="97" y2="170" stroke="#333" stroke-width="3" opacity="0"/>
-                    <line class="hangman-part" x1="97" y1="110" x2="75" y2="135" stroke="#333" stroke-width="3" opacity="0"/>
-                    <line class="hangman-part" x1="97" y1="110" x2="119" y2="135" stroke="#333" stroke-width="3" opacity="0"/>
-                    <line class="hangman-part" x1="97" y1="170" x2="75" y2="200" stroke="#333" stroke-width="3" opacity="0"/>
-                    <line class="hangman-part" x1="97" y1="170" x2="119" y2="200" stroke="#333" stroke-width="3" opacity="0"/>
+                    <circle class="hangman-part" cx="97" cy="75" r="15" stroke="#d63384" stroke-width="3" fill="none" opacity="0"/>
+                    <line class="hangman-part" x1="97" y1="90" x2="97" y2="170" stroke="#d63384" stroke-width="3" opacity="0"/>
+                    <line class="hangman-part" x1="97" y1="110" x2="75" y2="135" stroke="#d63384" stroke-width="3" opacity="0"/>
+                    <line class="hangman-part" x1="97" y1="110" x2="119" y2="135" stroke="#d63384" stroke-width="3" opacity="0"/>
+                    <line class="hangman-part" x1="97" y1="170" x2="75" y2="200" stroke="#d63384" stroke-width="3" opacity="0"/>
+                    <line class="hangman-part" x1="97" y1="170" x2="119" y2="200" stroke="#d63384" stroke-width="3" opacity="0"/>
                 </svg>
             </div>
         </div>

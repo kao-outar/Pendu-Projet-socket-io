@@ -1,14 +1,18 @@
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #ffeef8 0%, #f8e1f4 100%);
     margin: 0;
     padding: 20px;
+    min-height: 100vh;
 }
 
 h1 {
-    color: #333;
+    color: #d63384;
     text-align: center;
     margin-bottom: 30px;
+    font-size: 2.5em;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(214, 51, 132, 0.3);
 }
 
 .main-container {
@@ -36,46 +40,133 @@ h1 {
 #game-info, #game-container, #game-state {
     text-align: center;
     margin: 10px 0;
-    padding: 15px;
-    border-radius: 8px;
-    background-color: white;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    padding: 20px;
+    border-radius: 15px;
+    background: linear-gradient(145deg, #ffffff, #f8f9fa);
+    box-shadow: 0 8px 20px rgba(214, 51, 132, 0.15);
+    border: 2px solid rgba(214, 51, 132, 0.1);
 }
 
 #word-display {
-    font-size: 2em;
+    font-size: 2.5em;
     letter-spacing: 0.5em;
     margin: 20px 0;
-    padding: 10px;
-    border: 2px dashed #ccc;
-    min-height: 40px;
+    padding: 20px;
+    background: linear-gradient(145deg, #fff, #f8e1f4);
+    border: 3px solid #d63384;
+    border-radius: 15px;
+    min-height: 60px;
+    color: #d63384;
+    font-weight: bold;
+    box-shadow: inset 0 2px 5px rgba(214, 51, 132, 0.1);
 }
 
 #controls input[type="text"] {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 1em;
-    margin-right: 10px;
+    padding: 15px;
+    border: 2px solid #d63384;
+    border-radius: 10px;
+    font-size: 1.1em;
+    margin-right: 15px;
+    background: linear-gradient(145deg, #fff, #ffeef8);
+    color: #d63384;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+#controls input[type="text"]:focus {
+    border-color: #e91e63;
+    box-shadow: 0 0 15px rgba(214, 51, 132, 0.3);
 }
 
 #controls button {
-    padding: 10px 15px;
+    padding: 15px 25px;
     border: none;
-    background-color: #007BFF;
+    background: linear-gradient(145deg, #d63384, #e91e63);
     color: white;
-    border-radius: 4px;
+    border-radius: 10px;
     cursor: pointer;
-    font-size: 1em;
+    font-size: 1.1em;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(214, 51, 132, 0.3);
 }
 
 #controls button:hover {
-    background-color: #0056b3;
+    background: linear-gradient(145deg, #e91e63, #d63384);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(214, 51, 132, 0.4);
+}
+
+/* Clavier virtuel */
+#virtual-keyboard {
+    margin: 20px 0;
+}
+
+.keyboard-row {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+.letter-btn {
+    width: 45px;
+    height: 45px;
+    border: 2px solid #d63384;
+    background: linear-gradient(145deg, #fff, #ffeef8);
+    color: #d63384;
+    border-radius: 10px;
+    font-size: 1.2em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 10px rgba(214, 51, 132, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.letter-btn:hover {
+    background: linear-gradient(145deg, #ffeef8, #f8e1f4);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(214, 51, 132, 0.3);
+}
+
+.letter-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 5px rgba(214, 51, 132, 0.2);
+}
+
+.letter-btn.used {
+    background: linear-gradient(145deg, #e9ecef, #dee2e6);
+    color: #6c757d;
+    border-color: #dee2e6;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.letter-btn.used:hover {
+    background: linear-gradient(145deg, #e9ecef, #dee2e6);
+    transform: none;
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
 }
 
 #guessed-letters {
     font-weight: bold;
-    color: #dc3545;
+    color: #d63384;
+    background: linear-gradient(145deg, #ffeef8, #f8e1f4);
+    padding: 8px 15px;
+    border-radius: 20px;
+    display: inline-block;
+    border: 1px solid #d63384;
+}
+
+#errors-count {
+    color: #d63384;
+    font-weight: bold;
+    font-size: 1.2em;
 }
 
 .hidden {
@@ -84,10 +175,11 @@ h1 {
 
 /* Animation du pendu SVG */
 #hangman-drawing {
-    background-color: white;
-    border-radius: 10px;
-    padding: 15px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    background: linear-gradient(145deg, #ffffff, #ffeef8);
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 8px 20px rgba(214, 51, 132, 0.15);
+    border: 2px solid rgba(214, 51, 132, 0.1);
 }
 
 .hangman-part {

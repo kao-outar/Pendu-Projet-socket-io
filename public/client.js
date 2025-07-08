@@ -71,20 +71,24 @@ document.addEventListener('DOMContentLoaded', () => {
     // Logique pour envoyer le mot secret
     submitWordButton.addEventListener('click', () => {
         const word = secretWordInput.value.trim().toLowerCase();
-        if (word) {
+        if (word && /^[a-z]+$/.test(word)) {
             resetGameDisplay();
             socket.emit('set-secret-word', word);
             secretWordInput.value = '';
             secretWordForm.classList.add('hidden');
+        } else if (word) {
+            alert('Le mot ne doit contenir que des lettres (a-z, sans accents ni caractères spéciaux)');
         }
     });
 
     // Logique pour deviner une lettre
     guessButton.addEventListener('click', () => {
         const letter = letterInput.value.trim().toLowerCase();
-        if (letter) {
+        if (letter && /^[a-z]$/.test(letter)) {
             socket.emit('guess-letter', letter);
             letterInput.value = '';
+        } else if (letter) {
+            alert('Veuillez entrer une seule lettre (a-z, sans accents)');
         }
     });
     
@@ -114,5 +118,14 @@ document.addEventListener('DOMContentLoaded', () => {
     playAgainButton.addEventListener('click', () => {
         socket.emit('play-again');
         resetGameDisplay();
+    });
+
+    // Gestion des rejets de validation
+    socket.on('word-rejected', (message) => {
+        alert(message);
+    });
+
+    socket.on('letter-rejected', (message) => {
+        alert(message);
     });
 }); 

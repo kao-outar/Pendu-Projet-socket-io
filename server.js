@@ -66,11 +66,19 @@ io.on('connection', (socket) => {
     // Événement pour définir le mot secret
     socket.on('set-secret-word', (word) => {
         if (socket.id === players[0].id && !gameState.wordIsSet) {
+            const cleanWord = word.toLowerCase().trim();
+            
+            // Validation : uniquement des lettres a-z
+            if (!/^[a-z]+$/.test(cleanWord)) {
+                socket.emit('word-rejected', 'Le mot ne doit contenir que des lettres (a-z, sans accents ni caractères spéciaux)');
+                return;
+            }
+            
             // Réinitialiser l'état du jeu avant de définir le nouveau mot
             gameState.guessedLetters = [];
             gameState.errors = 0;
-            gameState.secretWord = word.toLowerCase();
-            gameState.displayedWord = Array(word.length).fill('_');
+            gameState.secretWord = cleanWord;
+            gameState.displayedWord = Array(cleanWord.length).fill('_');
             gameState.wordIsSet = true;
             gameState.turn = players[1].id;
 
@@ -88,9 +96,16 @@ io.on('connection', (socket) => {
             return; // Pas son tour ou le mot n'est pas encore défini
         }
         
-        letter = letter.toLowerCase();
+        letter = letter.toLowerCase().trim();
+        
+        // Validation : uniquement une lettre a-z
+        if (!/^[a-z]$/.test(letter)) {
+            socket.emit('letter-rejected', 'Veuillez entrer une seule lettre (a-z, sans accents)');
+            return;
+        }
+        
         if (gameState.guessedLetters.includes(letter)) {
-            // Peut-être informer le joueur que la lettre a déjà été proposée
+            socket.emit('letter-rejected', 'Cette lettre a déjà été proposée');
             return;
         }
 

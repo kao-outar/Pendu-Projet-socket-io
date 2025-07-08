@@ -21,7 +21,11 @@ let initialGameState = {
     maxErrors: 10,
     turn: null,
     wordIsSet: false,
-    gameIsOver: false
+    gameIsOver: false,
+    hints: [],
+    hintsUsed: 0,
+    maxHints: 3,
+    waitingForHint: false
 };
 let gameState = { ...initialGameState };
 
@@ -140,6 +144,52 @@ io.on('connection', (socket) => {
         }
 
         io.emit('update-game-state', gameState);
+    });
+
+    // Événement pour demander un indice
+    socket.on('request-hint', () => {
+        if (socket.id !== players[1].id || !gameState.wordIsSet || gameState.gameIsOver) {
+            return; // Seul le joueur 2 peut demander un indice
+        }
+        
+        if (gameState.hintsUsed >= gameState.maxHints) {
+            socket.emit('hint-rejected', 'Vous avez déjà utilisé tous vos indices (3/3)');
+            return;
+        }
+        
+        if (gameState.waitingForHint) {
+            socket.emit('hint-rejected', 'Un indice est déjà en cours de préparation');
+            return;
+        }
+        
+        gameState.waitingForHint = true;
+        io.to(players[0].id).emit('provide-hint');
+        io.to(players[1].id).emit('waiting-for-hint');
+        
+        io.emit('update-game-state', gameState);
+    });
+
+    // Événement pour fournir un indice
+    socket.on('provide-hint', (hintText) => {
+        if (socket.id !== players[0].id || !gameState.waitingForHint) {
+            return; // Seul le joueur 1 peut fournir un indice
+        }
+        
+        const hint = hintText.trim();
+        if (!hint) {
+            socket.emit('hint-rejected', 'Veuillez entrer un indice valide');
+            return;
+        }
+        
+        gameState.hints.push(hint);
+        gameState.hintsUsed++;
+        gameState.waitingForHint = false;
+        
+        io.emit('hint-provided', hint);
+        io.emit('update-game-state', gameState);
+        
+        // Remettre le joueur 2 à son tour de deviner
+        io.to(players[1].id).emit('your-turn');
     });
 
     socket.on('play-again', () => {

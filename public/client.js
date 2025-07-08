@@ -14,6 +14,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const errorsCount = document.getElementById('errors-count');
     const guessedLetters = document.getElementById('guessed-letters');
     const playAgainButton = document.getElementById('play-again-button');
+    
+    // Nouveaux éléments pour les indices
+    const hintForm = document.getElementById('hint-form');
+    const hintInput = document.getElementById('hint-input');
+    const submitHintButton = document.getElementById('submit-hint-button');
+    const requestHintButton = document.getElementById('request-hint-button');
+    const hintsCount = document.getElementById('hints-count');
+    const hintsDisplay = document.getElementById('hints-display');
+    const hintsList = document.getElementById('hints-list');
 
     let myPlayerId = null;
 
@@ -25,6 +34,10 @@ document.addEventListener('DOMContentLoaded', () => {
         playAgainButton.classList.add('hidden');
         secretWordForm.classList.add('hidden');
         guessForm.classList.add('hidden');
+        hintForm.classList.add('hidden');
+        hintsDisplay.classList.add('hidden');
+        hintsList.innerHTML = '';
+        hintsCount.textContent = '0';
         
         // Réinitialiser le dessin du pendu
         const hangmanParts = document.querySelectorAll('.hangman-part');
@@ -114,11 +127,31 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
     
+    // Logique pour demander un indice
+    requestHintButton.addEventListener('click', () => {
+        socket.emit('request-hint');
+    });
+    
+    // Logique pour envoyer un indice
+    submitHintButton.addEventListener('click', () => {
+        const hint = hintInput.value.trim();
+        if (hint) {
+            socket.emit('provide-hint', hint);
+            hintInput.value = '';
+        }
+    });
+    
     // Gérer la mise à jour de l'état du jeu
     socket.on('update-game-state', (gameState) => {
         wordDisplay.textContent = gameState.displayedWord.join(' ');
         errorsCount.textContent = gameState.errors;
         guessedLetters.textContent = gameState.guessedLetters.join(', ');
+        
+        // Mettre à jour le compteur d'indices
+        hintsCount.textContent = gameState.hintsUsed;
+        
+        // Désactiver le bouton d'indice si le maximum est atteint ou si en attente
+        requestHintButton.disabled = gameState.hintsUsed >= gameState.maxHints || gameState.waitingForHint;
         
         // Mettre à jour le dessin du pendu
         updateHangmanDrawing(gameState.errors);
@@ -160,5 +193,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
     socket.on('letter-rejected', (message) => {
         alert(message);
+    });
+    
+    // Gestion des indices
+    socket.on('provide-hint', () => {
+        statusMessage.textContent = 'Le joueur 2 demande un indice. Entrez un indice pour l\'aider.';
+        hintForm.classList.remove('hidden');
+        guessForm.classList.add('hidden');
+    });
+    
+    socket.on('waiting-for-hint', () => {
+        statusMessage.textContent = 'Demande d\'indice envoyée. En attente de la réponse du joueur 1...';
+        requestHintButton.disabled = true;
+    });
+    
+    socket.on('hint-provided', (hint) => {
+        // Ajouter l'indice à la liste
+        const listItem = document.createElement('li');
+        listItem.textContent = hint;
+        hintsList.appendChild(listItem);
+        
+        // Afficher la section des indices si elle est cachée
+        hintsDisplay.classList.remove('hidden');
+        
+        statusMessage.textContent = `Nouvel indice reçu : "${hint}"`;
+        hintForm.classList.add('hidden');
+        requestHintButton.disabled = false;
+    });
+    
+    socket.on('hint-rejected', (message) => {
+        alert(message);
+        requestHintButton.disabled = false;
     });
 }); 

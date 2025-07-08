@@ -25,7 +25,17 @@
                         <input type="text" id="secret-word-input" placeholder="Entrez le mot secret...">
                         <button id="submit-word-button">Valider</button>
                     </div>
+                    
+                    <div id="hint-form" class="hidden">
+                        <input type="text" id="hint-input" placeholder="Entrez un indice pour aider le joueur 2...">
+                        <button id="submit-hint-button">Envoyer l'indice</button>
+                    </div>
+                    
                     <div id="guess-form" class="hidden">
+                        <div id="hint-section">
+                            <button id="request-hint-button">Indice (<span id="hints-count">0</span>/3)</button>
+                        </div>
+                        
                         <div id="virtual-keyboard">
                             <div class="keyboard-row">
                                 <button class="letter-btn" data-letter="a">A</button>
@@ -66,6 +76,10 @@
                 <div id="game-state">
                     <p>Erreurs : <span id="errors-count">0</span> / 10</p>
                     <p>Lettres déjà proposées : <span id="guessed-letters"></span></p>
+                    <div id="hints-display" class="hidden">
+                        <h4>Indices reçus :</h4>
+                        <ul id="hints-list"></ul>
+                    </div>
                 </div>
             </div>
         </div>

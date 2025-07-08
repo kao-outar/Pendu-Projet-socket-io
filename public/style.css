@@ -138,19 +138,21 @@ h1 {
     box-shadow: 0 2px 5px rgba(214, 51, 132, 0.2);
 }
 
-.letter-btn.used {
-    background: linear-gradient(145deg, #e9ecef, #dee2e6);
-    color: #6c757d;
-    border-color: #dee2e6;
-    cursor: not-allowed;
-    transform: none;
-    box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
+#controls .letter-btn.used {
+    background: linear-gradient(145deg, #e9ecef, #dee2e6) !important;
+    color: #6c757d !important;
+    border-color: #dee2e6 !important;
+    cursor: not-allowed !important;
+    transform: none !important;
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.1) !important;
+    opacity: 0.6 !important;
+    text-decoration: line-through !important;
 }
 
-.letter-btn.used:hover {
-    background: linear-gradient(145deg, #e9ecef, #dee2e6);
-    transform: none;
-    box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
+#controls .letter-btn.used:hover {
+    background: linear-gradient(145deg, #e9ecef, #dee2e6) !important;
+    transform: none !important;
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.1) !important;
 }
 
 #guessed-letters {

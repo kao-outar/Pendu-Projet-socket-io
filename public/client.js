@@ -25,6 +25,25 @@ document.addEventListener('DOMContentLoaded', () => {
         playAgainButton.classList.add('hidden');
         secretWordForm.classList.add('hidden');
         guessForm.classList.add('hidden');
+        
+        // Réinitialiser le dessin du pendu
+        const hangmanParts = document.querySelectorAll('.hangman-part');
+        hangmanParts.forEach(part => part.classList.remove('show'));
+    }
+    
+    // Fonction pour afficher les parties du pendu progressivement
+    function updateHangmanDrawing(errors) {
+        const hangmanParts = document.querySelectorAll('.hangman-part');
+        
+        // Réinitialiser toutes les parties
+        hangmanParts.forEach(part => part.classList.remove('show'));
+        
+        // Afficher les parties en fonction du nombre d'erreurs avec animation fluide
+        for (let i = 0; i < errors && i < hangmanParts.length; i++) {
+            setTimeout(() => {
+                hangmanParts[i].classList.add('show');
+            }, i * 150); // Animation échelonnée plus rapide
+        }
     }
 
     socket.on('connect', () => {
@@ -97,6 +116,9 @@ document.addEventListener('DOMContentLoaded', () => {
         wordDisplay.textContent = gameState.displayedWord.join(' ');
         errorsCount.textContent = gameState.errors;
         guessedLetters.textContent = gameState.guessedLetters.join(', ');
+        
+        // Mettre à jour le dessin du pendu
+        updateHangmanDrawing(gameState.errors);
 
         // On ne gère plus l'affichage du formulaire de devinette ici
         // car 'your-turn' s'en occupe déjà.

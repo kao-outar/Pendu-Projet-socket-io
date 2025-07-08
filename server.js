@@ -18,7 +18,7 @@ let initialGameState = {
     displayedWord: [],
     guessedLetters: [],
     errors: 0,
-    maxErrors: 6,
+    maxErrors: 10,
     turn: null,
     wordIsSet: false,
     gameIsOver: false

@@ -13,33 +13,55 @@
         <p id="status-message">En attente de joueurs...</p>
     </div>
 
-    <div id="game-container" class="hidden">
-        <div id="word-display-container">
-            <p id="word-display"></p>
+    <div class="main-container">
+        <div class="game-section">
+            <div id="game-container" class="hidden">
+                <div id="word-display-container">
+                    <p id="word-display"></p>
+                </div>
+                
+                <div id="controls">
+                    <div id="secret-word-form" class="hidden">
+                        <input type="text" id="secret-word-input" placeholder="Entrez le mot secret...">
+                        <button id="submit-word-button">Valider</button>
+                    </div>
+                    <div id="guess-form" class="hidden">
+                        <input type="text" id="letter-input" maxlength="1" placeholder="Devinez une lettre...">
+                        <button id="guess-button">Deviner</button>
+                    </div>
+                </div>
+
+                <div id="game-state">
+                    <p>Erreurs : <span id="errors-count">0</span> / 10</p>
+                    <p>Lettres déjà proposées : <span id="guessed-letters"></span></p>
+                </div>
+            </div>
         </div>
         
-        <div id="controls">
-            <div id="secret-word-form" class="hidden">
-                <input type="text" id="secret-word-input" placeholder="Entrez le mot secret...">
-                <button id="submit-word-button">Valider</button>
-            </div>
-            <div id="guess-form" class="hidden">
-                <input type="text" id="letter-input" maxlength="1" placeholder="Devinez une lettre...">
-                <button id="guess-button">Deviner</button>
+        <div class="hangman-section">
+            <div id="hangman-drawing">
+                <svg width="200" height="250" viewBox="0 0 200 250">
+                    <!-- Potence -->
+                    <rect class="hangman-part" x="10" y="230" width="100" height="8" fill="#8B4513" opacity="0"/>
+                    <rect class="hangman-part" x="20" y="20" width="8" height="220" fill="#8B4513" opacity="0"/>
+                    <rect class="hangman-part" x="20" y="20" width="80" height="8" fill="#8B4513" opacity="0"/>
+                    <rect class="hangman-part" x="95" y="28" width="3" height="30" fill="#654321" opacity="0"/>
+                    
+                    <!-- Pendu -->
+                    <circle class="hangman-part" cx="97" cy="75" r="15" stroke="#333" stroke-width="3" fill="none" opacity="0"/>
+                    <line class="hangman-part" x1="97" y1="90" x2="97" y2="170" stroke="#333" stroke-width="3" opacity="0"/>
+                    <line class="hangman-part" x1="97" y1="110" x2="75" y2="135" stroke="#333" stroke-width="3" opacity="0"/>
+                    <line class="hangman-part" x1="97" y1="110" x2="119" y2="135" stroke="#333" stroke-width="3" opacity="0"/>
+                    <line class="hangman-part" x1="97" y1="170" x2="75" y2="200" stroke="#333" stroke-width="3" opacity="0"/>
+                    <line class="hangman-part" x1="97" y1="170" x2="119" y2="200" stroke="#333" stroke-width="3" opacity="0"/>
+                </svg>
             </div>
         </div>
-
-        <div id="game-state">
-            <p>Erreurs : <span id="errors-count">0</span> / 6</p>
-            <p>Lettres déjà proposées : <span id="guessed-letters"></span></p>
-        </div>
-    </div>
-    
-    <div id="hangman-drawing">
-        <!-- Le dessin du pendu sera géré en CSS ou via des images -->
     </div>
 
-    <button id="play-again-button" class="hidden">Rejouer</button>
+    <div style="text-align: center;">
+        <button id="play-again-button" class="hidden">Rejouer</button>
+    </div>
 
 
     <script src="/socket.io/socket.io.js"></script>
